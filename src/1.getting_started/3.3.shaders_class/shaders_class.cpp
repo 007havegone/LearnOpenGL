@@ -11,7 +11,7 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
+float offset = 0.5f;
 int main()
 {
     // glfw: initialize and configure
@@ -94,6 +94,7 @@ int main()
 
         // render the triangle
         ourShader.use();
+        // ourShader.setFloat("xOffset",offset);// 设置偏移
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 

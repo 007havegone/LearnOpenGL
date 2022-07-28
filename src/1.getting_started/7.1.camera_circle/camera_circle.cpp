@@ -221,9 +221,11 @@ int main()
 
         // camera/view transformation
         glm::mat4 view = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+        // 通过三角函数实现在x-z平面的旋转，y坐标恒定为1，看向原点，半径为10
         float radius = 10.0f;
         float camX = static_cast<float>(sin(glfwGetTime()) * radius);
         float camZ = static_cast<float>(cos(glfwGetTime()) * radius);
+        // 通过lookAt指定相机位置、目标位置及向上方向就可以指定view矩阵
         view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("view", view);
 

@@ -10,7 +10,7 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
+// 着色器实现输出到输出处理过程，shader之间也只能通过输入输出来通信，没有别的方法
 const char *vertexShaderSource ="#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "void main()\n"
@@ -142,7 +142,7 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // be sure to activate the shader before any calls to glUniform
+        // be sure to activate the shader before any calls to glUniform!!!
         glUseProgram(shaderProgram);
 
         // update shader uniform

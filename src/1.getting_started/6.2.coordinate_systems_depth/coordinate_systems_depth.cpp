@@ -53,7 +53,7 @@ int main()
 
     // configure global opengl state
     // -----------------------------
-    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);// 开启深度测试
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -190,6 +190,7 @@ int main()
         // render
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        // 每一帧都需要进行z-buffer的清空
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
         // bind textures on corresponding texture units
@@ -219,7 +220,7 @@ int main()
 
         // render box
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, 36);// 绘制6面,每面2个三角形6个点,6*6=36
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

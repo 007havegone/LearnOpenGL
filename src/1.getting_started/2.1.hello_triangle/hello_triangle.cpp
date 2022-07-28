@@ -9,12 +9,12 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
+// OpenGL shading language
 const char *vertexShaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"// gl_Position是预定义值
     "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
     "out vec4 FragColor;\n"
@@ -60,9 +60,9 @@ int main()
     // build and compile our shader program
     // ------------------------------------
     // vertex shader
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);// 创建一个顶点着色器对象
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);// 绑定该对象的源代码，参数2是字符串的数量
+    glCompileShader(vertexShader);// 编译该代码
     // check for shader compile errors
     int success;
     char infoLog[512];
@@ -105,16 +105,24 @@ int main()
          0.0f,  0.5f, 0.0f  // top   
     }; 
 
-    unsigned int VBO, VAO;
+    unsigned int VBO, VAO;// vertex buffer object, vertex array object
+    // 创建VAO，VBO
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
-
+    // 绑定VAO和VBO，顺序无所谓，但是VAO需要记录VBO和VEO的操作，需要在那之前绑定
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+    glBindVertexArray(VAO);// VAO记录glBindBuffer后续的属性和操作，在这些操作之前进行绑定即可
+    // 根据array类型传入vertices数据，同时没有修改，设置为static
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);// 将vertices的数据复制到数组缓冲区中
+    // openGL如何解释顶点数据
+    // 参数1指定要配置的顶点属性，这里传入0，对应于shader程序的layout(location=0)
+    // 参数2指定顶点属性的大小，3个值构成
+    // 参数3指定顶点属性的类型
+    // 参数4指定正则化(0,1)，否则(-1,1)
+    // 参数5步长，顶点属性的间隔，如果为紧密排布，设置0由openGL自动设置
+    // 参数6偏移量，需要强制转换为(void*)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // 顶点属性的位置作为参数启用顶点属性
     glEnableVertexAttribArray(0);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
@@ -122,6 +130,7 @@ int main()
 
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+    // 一般不需要
     glBindVertexArray(0); 
 
 

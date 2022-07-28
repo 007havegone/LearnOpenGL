@@ -53,8 +53,8 @@ int main()
 
         // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);// 设置清屏的颜色RGBA
+        glClear(GL_COLOR_BUFFER_BIT);//清空color_buffer/ depth_buffer/ stencil_buffer
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

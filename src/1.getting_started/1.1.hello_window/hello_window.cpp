@@ -1,5 +1,5 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>//告知glad所需的openGL版本，加载版本相关的openGL函数
+#include <GLFW/glfw3.h>//实现最基础的窗口和参数获取的接口，非openGL
 
 #include <iostream>
 
@@ -14,10 +14,10 @@ int main()
 {
     // glfw: initialize and configure
     // ------------------------------
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwInit();//初始化glfw
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);// 配置主版本号
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);// 配置次版本号
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);// 配置使用子功能CORE
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -32,11 +32,15 @@ int main()
         glfwTerminate();
         return -1;
     }
+    // 将window上下文设置为主线程的上下文
     glfwMakeContextCurrent(window);
+    // 注册framebuffer_size_callback函数，当窗口变化时调用更新视口
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
+    // glfwGetProcAddress接口返回openGL的函数指针接口，使用glad将openGL的接口指向这些函数指针
+    // 后续使用openGL的接口访问
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -54,7 +58,7 @@ int main()
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwPollEvents();// 函数检测是否有触发什么事件、更新窗口状态，并调用对应的回调函数
     }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
@@ -77,5 +81,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
+    // 参数x和y控制窗口左下角的位置，后续为宽高
+    // 底层将normal cube的空间映射到screen space空间
     glViewport(0, 0, width, height);
 }
